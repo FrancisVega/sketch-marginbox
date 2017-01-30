@@ -1,0 +1,27 @@
+{
+    "name": "Marginbox",
+    "description": "Marginbox",
+    "author": "Francis Vega",
+    "author": "hisconer@gmail.com",
+    "homepage": "",
+    "version": 0.03,
+    "identifier": "com.example.sketch.marginbox",
+    "compatibleVersion": "4.2",
+    "bundleVersion": 1,
+    "commands": [
+        {
+            "name": "MarginBox",
+            "identifier": "adjustmarginbox",
+            "handler": "onRun",
+            "shortcut": "cmd j",
+            "script": "marginbox.cocoascript"
+        }
+    ],
+    "menu": {
+        "isRoot": true,
+        "title":"MarginBox",
+        "items":[
+            "adjustmarginbox"
+        ]
+    }
+}
