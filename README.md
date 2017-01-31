@@ -1,2 +1,2 @@
 # sketch-marginbox
-Simple scritp to create layers as margin
+Simple scritp to create layers as margins
