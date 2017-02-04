@@ -14,7 +14,7 @@
   context
   */
 
-var onRun = function(context) {
+var onRun = function(context) { // eslint-disable-line
 
 
   //
@@ -23,25 +23,23 @@ var onRun = function(context) {
 
   // Find layers by name
   const findLayersByName = (name, scope) => scope.filteredArrayUsingPredicate(
-    NSPredicate.predicateWithFormat("name == %@",name)
+    NSPredicate.predicateWithFormat('name == %@', name),
   );
   // Get min value from array
-  const min = arr => Math.min.apply(Math, arr);
+  const min = arr => Math.min.apply(Math, arr); // eslint-disable-line
   // Min (y) pos from layers
   const minY = layers => min(layers.slice().map(layer => layer.frame().y()));
   // Min (x) pos from layers
   const minX = layers => min(layers.slice().map(layer => layer.frame().x()));
-  // Get margin data from marginbox layer
-  const getData = layer => layer.name().split(/:/g).pop().trim();
   // Get layers bounds
   const getLayerBounds = layers => MSLayerGroup.groupBoundsForContainer(
     MSLayerArray.arrayWithLayers(layers)).size;
   // Get all children of selection
-  const getChildrenOfSelection = selection => {
-    let all = [];
+  const getChildrenOfSelection = (selection) => {
+    const all = [];
     let childs = [];
-    for(let i=0; i<selection.length; ++i) {
-      if(selection[i].class() == "MSLayerGroup") {
+    for (let i = 0; i < selection.length; i += 1) {
+      if(selection[i].class() == 'MSLayerGroup') {
         childs = selection[i].children();
         for (let j=0; j<childs.length; ++j) {
           all.push(childs[j])
@@ -52,13 +50,43 @@ var onRun = function(context) {
   }
   // Create rectangle type layer
   const createRectLayer = (name, x, y, width, height, parent) => {
-    if(parent.class() == "MSLayerGroup") {
+    if(parent.class() == 'MSLayerGroup') {
       const rectShape = MSRectangleShape.alloc().init();
       rectShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,width,height));
       const shapeGroup = MSShapeGroup.shapeWithPath(rectShape);
       shapeGroup.name = name;
       parent.addLayers([shapeGroup]);
       return shapeGroup;
+    }
+  }
+  // Extract margin values from layer name
+  const fourValuesFromString = str => {
+    const cleanValues = str.split(/:/g).pop().trim().replace(/\s+/g, " ")
+    const singleSideFormat = cleanValues.match(/[A-z]\d+/g)
+    const margin = [0, 0, 0, 0]
+    if (singleSideFormat) {
+      for (let i = 0; i < singleSideFormat.length; i += 1) {
+        if (singleSideFormat[i][0].toLowerCase() == "t") { margin[0] = singleSideFormat[i].slice(1, 99)}
+        if (singleSideFormat[i][0].toLowerCase() == "r") { margin[1] = singleSideFormat[i].slice(1, 99)}
+        if (singleSideFormat[i][0].toLowerCase() == "b") { margin[2] = singleSideFormat[i].slice(1, 99)}
+        if (singleSideFormat[i][0].toLowerCase() == "l") { margin[3] = singleSideFormat[i].slice(1, 99)}
+      }
+      return margin.map(x => Number(x))
+    } else {
+      const cssFormat = cleanValues.split(/\s/g)
+      if (cssFormat.length == 2) {
+        margin[0] = cssFormat[0];
+        margin[2] = cssFormat[0];
+        margin[1] = cssFormat[1];
+        margin[3] = cssFormat[1];
+      }
+      if (cssFormat.length == 4) {
+        margin[0] = cssFormat[0];
+        margin[1] = cssFormat[1];
+        margin[2] = cssFormat[2];
+        margin[3] = cssFormat[3];
+      }
+      return margin.map(x => Number(x))
     }
   }
 
@@ -79,7 +107,7 @@ var onRun = function(context) {
   // User seleccion
   const selection = context.selection;
   const allChildren = getChildrenOfSelection(selection);
-  const justGroups = allChildren.slice().filter(layer => layer.class() == "MSLayerGroup");
+  const justGroups = allChildren.slice().filter(layer => layer.class() == 'MSLayerGroup');
 
   for (let i=0; i<justGroups.length; ++i) {
     const keyLayer = justGroups[i];
@@ -127,40 +155,13 @@ var onRun = function(context) {
     marginbox.frame().x = minX(validLayers);
 
     // Get margin values
-    const mData = getData(keyLayer);
-
-    let result
-    if (mData.match(/[a-z|A-Z]/g) == null) {
-      // num
-      let r1 = mData.split(/\s/g);
-      if (r1.length == 1) {
-        result = [r1[0], r1[0], r1[0], r1[0]];
-      } else if (r1.length == 2) {
-        result = [r1[0], r1[1], r1[0], r1[1]];
-      } else {
-        result = r1;
-      }
-    } else {
-      // alphanum
-      let positions = mData.slice().split(/\s/g).map(x => x.match(/[a-z|A-Z]/g).join(""));
-      let values = mData.slice().split(/\s/g).map(x => x.match(/\d+/g));
-      let r2 = ["0", "0", "0", "0"];
-      for (let i=0; i<positions.length; ++i) {
-        if(positions[i].toLowerCase() == "t") { r2[0] = values[i] }
-        if(positions[i].toLowerCase() == "r") { r2[1] = values[i] }
-        if(positions[i].toLowerCase() == "b") { r2[2] = values[i] }
-        if(positions[i].toLowerCase() == "l") { r2[3] = values[i] }
-      }
-      result = r2;
-    }
-
-    result = result.map(x => Number(x));
+    const mData = fourValuesFromString(keyLayer.name());
 
     // Marginbox position
-    marginbox.frame().y = marginbox.frame().y() - result[0];
-    marginbox.frame().x = marginbox.frame().x() - result[3];
-    marginbox.frame().height = heightBoundingBox + result[0] + result[2];
-    marginbox.frame().width = widthBoundingBox + result[1] + result[3];
+    marginbox.frame().y = marginbox.frame().y() - mData[0];
+    marginbox.frame().x = marginbox.frame().x() - mData[3];
+    marginbox.frame().height = heightBoundingBox + mData[0] + mData[2];
+    marginbox.frame().width = widthBoundingBox + mData[1] + mData[3];
 
     // Fit size group
     keyLayer.resizeToFitChildrenWithOption(true);
