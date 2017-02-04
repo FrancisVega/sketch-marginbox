@@ -118,6 +118,8 @@ var onRun = function(context) {
         MARGIN_BORDER_COLOR.r, MARGIN_BORDER_COLOR.g, MARGIN_BORDER_COLOR.b, MARGIN_BORDER_COLOR.a
       );
       originalBorder.color = marginBorderColor;
+      originalBorder.thickness = 1;
+      originalBorder.position = 1;
     }
 
     // Reset marginbox layer positions
