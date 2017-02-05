@@ -9,14 +9,17 @@ With one or multiples groups (with margin data) selected execute the plugin or p
 
 ## How to add margin data
 The format of margin is like css:
+- top-right-bottom-left (all)
 - top right bottom left
 - top/bottom left/right
 To assign just one value add the letters T, R, B or L before the value
 
 ### Examples
 
-[name of the group]**: 16 32 64 32**
+Some Group Name **: 24** (all)
 
-[name of the group]**: 64 8**
+Some Group Name **: 16 32 64 32** (top right bottom left)
 
-[name of the group]**: T8 R16**
+Some Group Name **: 64 8** (top/bottom left/right)
+
+Some Group Name **: T8 R16** (top right)
