@@ -14,8 +14,7 @@
   context
   */
 
-var onRun = function(context) {
-
+var onRun = function(context) { // eslint-disable-line
 
   //
   // Functions
@@ -26,7 +25,7 @@ var onRun = function(context) {
     NSPredicate.predicateWithFormat('name == %@', name),
   );
   // Get min value from array
-  const min = arr => Math.min.apply(Math, arr);
+  const min = arr => Math.min.apply(Math, arr); // eslint-disable-line
   // Min (y) pos from layers
   const minY = layers => min(layers.slice().map(layer => layer.frame().y()));
   // Min (x) pos from layers
@@ -133,6 +132,7 @@ var onRun = function(context) {
     if(marginbox == null) {
       marginbox = createRectLayer (MARGIN_LAYER_NAME, 0, 0, 1, 1, keyLayer);
       MSLayerMovement.moveToBack([marginbox]);
+
       // Add fill
       marginbox.style().addStylePartOfType(0);
       // Add border
@@ -142,10 +142,14 @@ var onRun = function(context) {
       // Get border
       const originalBorder = marginbox.style().borders().firstObject();
       // Set fill
-      const marginFillColor = MSColor.colorWithRed_green_blue_alpha( MARGIN_FILL_COLOR.r, MARGIN_FILL_COLOR.g, MARGIN_FILL_COLOR.b, MARGIN_FILL_COLOR.a);
+      const marginFillColor = MSColor.colorWithRed_green_blue_alpha(
+        MARGIN_FILL_COLOR.r, MARGIN_FILL_COLOR.g, MARGIN_FILL_COLOR.b, MARGIN_FILL_COLOR.a
+      );
       originalFill.color = marginFillColor;
       // Set border
-      const marginBorderColor = MSColor.colorWithRed_green_blue_alpha( MARGIN_BORDER_COLOR.r, MARGIN_BORDER_COLOR.g, MARGIN_BORDER_COLOR.b, MARGIN_BORDER_COLOR.a);
+      const marginBorderColor = MSColor.colorWithRed_green_blue_alpha(
+        MARGIN_BORDER_COLOR.r, MARGIN_BORDER_COLOR.g, MARGIN_BORDER_COLOR.b, MARGIN_BORDER_COLOR.a
+      );
       originalBorder.color = marginBorderColor;
       originalBorder.thickness = MARGIN_BORDER_THICKNESS;
       originalBorder.position = 1;
@@ -158,6 +162,15 @@ var onRun = function(context) {
     // Get margin values
     const mData = fourValuesFromString(keyLayer.name());
 
+    if (
+      mData[0] == 0 && mData[1] == 0 && mData[2] == 0 && mData[3] == 0 ||
+      isNaN(mData[0]) && isNaN(mData[1]) && isNaN(mData[2]) && isNaN(mData[3])
+    ) {
+      if(marginbox) {
+        keyLayer.removeLayer(marginbox);
+      }
+    }
+
     // Marginbox position
     marginbox.frame().y = marginbox.frame().y() - mData[0];
     marginbox.frame().x = marginbox.frame().x() - mData[3];
@@ -166,5 +179,11 @@ var onRun = function(context) {
 
     // Fit size group
     keyLayer.resizeToFitChildrenWithOption(true);
+  }
+
+  // Select the first selection layers
+  context.document.currentPage().deselectAllLayers();
+  for(let i=0, len=selection.length; i<len; ++i) {
+    selection[i].select_byExpandingSelection(true, true);
   }
 }
