@@ -15,13 +15,20 @@
             "handler": "onRun",
             "shortcut": "cmd j",
             "script": "marginbox.cocoascript"
+        },
+        {
+            "name": "Toggle MarginBox",
+            "identifier": "togglemarginbox",
+            "handler": "onRun",
+            "shortcut": "ctrl alt cmd m",
+            "script": "togglemarginbox.cocoascript"
         }
     ],
     "menu": {
-        "isRoot": true,
-        "title":"MarginBox",
-        "items":[
-            "adjustmarginbox"
+        "title": "MarginBox",
+        "items": [
+            "adjustmarginbox",
+            "togglemarginbox"
         ]
     }
 }

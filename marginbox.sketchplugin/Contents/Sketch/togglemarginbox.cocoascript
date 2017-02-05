@@ -1,0 +1,24 @@
+var onRun = function(context) {
+  const findObjectsByName = (name,scope) => scope.filteredArrayUsingPredicate(NSPredicate.predicateWithFormat("name == %@",name))
+  const MARGIN_NAME = 'marginbox'
+
+  const toggleVisibilityLayersByName = (sel, name) => {
+    sel.slice().map(group => {
+      let childs
+      switch(group.class()) {
+        case MSSymbolInstance:
+          childs = group.symbolMaster().children()
+          break;
+        default:
+          childs = group.children()
+      }
+      let marginLayers = findObjectsByName(name, childs).slice()
+      if(marginLayers.length > 0 ) {
+        let firstStatus = marginLayers[0].isVisible()
+        marginLayers.map(layer => layer.setIsVisible(!firstStatus))
+      }
+    })
+  }
+
+  toggleVisibilityLayersByName(context.selection, MARGIN_NAME);
+};
