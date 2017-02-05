@@ -14,7 +14,7 @@
   context
   */
 
-var onRun = function(context) { // eslint-disable-line
+var onRun = function(context) {
 
 
   //
@@ -26,7 +26,7 @@ var onRun = function(context) { // eslint-disable-line
     NSPredicate.predicateWithFormat('name == %@', name),
   );
   // Get min value from array
-  const min = arr => Math.min.apply(Math, arr); // eslint-disable-line
+  const min = arr => Math.min.apply(Math, arr);
   // Min (y) pos from layers
   const minY = layers => min(layers.slice().map(layer => layer.frame().y()));
   // Min (x) pos from layers
@@ -61,19 +61,25 @@ var onRun = function(context) { // eslint-disable-line
   }
   // Extract margin values from layer name
   const fourValuesFromString = str => {
-    const cleanValues = str.split(/:/g).pop().trim().replace(/\s+/g, " ")
-    const singleSideFormat = cleanValues.match(/[A-z]\d+/g)
+    const cleanValues = str.toLowerCase().split(/:/g).pop().trim().replace(/\s+/g, " ")
+    const singleFormat = cleanValues.match(/[A-z]\d+/g)
     const margin = [0, 0, 0, 0]
-    if (singleSideFormat) {
-      for (let i = 0; i < singleSideFormat.length; i += 1) {
-        if (singleSideFormat[i][0].toLowerCase() == "t") { margin[0] = singleSideFormat[i].slice(1, 99)}
-        if (singleSideFormat[i][0].toLowerCase() == "r") { margin[1] = singleSideFormat[i].slice(1, 99)}
-        if (singleSideFormat[i][0].toLowerCase() == "b") { margin[2] = singleSideFormat[i].slice(1, 99)}
-        if (singleSideFormat[i][0].toLowerCase() == "l") { margin[3] = singleSideFormat[i].slice(1, 99)}
+    if (singleFormat) {
+      for (let i = 0; i < singleFormat.length; i += 1) {
+        if (singleFormat[i][0] == "t") { margin[0] = singleFormat[i].slice(1, 99)}
+        if (singleFormat[i][0] == "r") { margin[1] = singleFormat[i].slice(1, 99)}
+        if (singleFormat[i][0] == "b") { margin[2] = singleFormat[i].slice(1, 99)}
+        if (singleFormat[i][0] == "l") { margin[3] = singleFormat[i].slice(1, 99)}
       }
       return margin.map(x => Number(x))
     } else {
       const cssFormat = cleanValues.split(/\s/g)
+      if (cssFormat.length == 1) {
+        margin[0] = cssFormat[0];
+        margin[1] = cssFormat[0];
+        margin[2] = cssFormat[0];
+        margin[3] = cssFormat[0];
+      }
       if (cssFormat.length == 2) {
         margin[0] = cssFormat[0];
         margin[2] = cssFormat[0];
@@ -98,7 +104,7 @@ var onRun = function(context) { // eslint-disable-line
   const MARGIN_LAYER_NAME = 'marginbox';
   const MARGIN_BORDER_COLOR = { r:255, g:0, b:128, a:0.5 };
   const MARGIN_FILL_COLOR = { r:255, g:0, b:128, a:0.05 };
-
+  const MARGIN_BORDER_THICKNESS = 1;
 
   //
   // Main
@@ -127,7 +133,6 @@ var onRun = function(context) { // eslint-disable-line
     if(marginbox == null) {
       marginbox = createRectLayer (MARGIN_LAYER_NAME, 0, 0, 1, 1, keyLayer);
       MSLayerMovement.moveToBack([marginbox]);
-
       // Add fill
       marginbox.style().addStylePartOfType(0);
       // Add border
@@ -137,16 +142,12 @@ var onRun = function(context) { // eslint-disable-line
       // Get border
       const originalBorder = marginbox.style().borders().firstObject();
       // Set fill
-      const marginFillColor = MSColor.colorWithRed_green_blue_alpha(
-        MARGIN_FILL_COLOR.r, MARGIN_FILL_COLOR.g, MARGIN_FILL_COLOR.b, MARGIN_FILL_COLOR.a
-      );
+      const marginFillColor = MSColor.colorWithRed_green_blue_alpha( MARGIN_FILL_COLOR.r, MARGIN_FILL_COLOR.g, MARGIN_FILL_COLOR.b, MARGIN_FILL_COLOR.a);
       originalFill.color = marginFillColor;
       // Set border
-      const marginBorderColor = MSColor.colorWithRed_green_blue_alpha(
-        MARGIN_BORDER_COLOR.r, MARGIN_BORDER_COLOR.g, MARGIN_BORDER_COLOR.b, MARGIN_BORDER_COLOR.a
-      );
+      const marginBorderColor = MSColor.colorWithRed_green_blue_alpha( MARGIN_BORDER_COLOR.r, MARGIN_BORDER_COLOR.g, MARGIN_BORDER_COLOR.b, MARGIN_BORDER_COLOR.a);
       originalBorder.color = marginBorderColor;
-      originalBorder.thickness = 1;
+      originalBorder.thickness = MARGIN_BORDER_THICKNESS;
       originalBorder.position = 1;
     }
 
