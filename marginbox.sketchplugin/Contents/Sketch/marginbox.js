@@ -1,18 +1,4 @@
-/*
-  global
-  NSPredicate,
-  MSLayerGroup,
-  MSLayerArray,
-  MSRectangleShape,
-  MSRect,
-  NSMakeRect,
-  MSShapeGroup,
-  MSLayerMovement,
-  MSColor,
-  MSColor,
-  log,
-  context
-  */
+@import 'common.js';
 
 var onRun = function(context) { // eslint-disable-line
 
@@ -20,10 +6,6 @@ var onRun = function(context) { // eslint-disable-line
   // Functions
   //
 
-  // Find layers by name
-  const findLayersByName = (name, scope) => scope.filteredArrayUsingPredicate(
-    NSPredicate.predicateWithFormat('name == %@', name),
-  );
   // Get min value from array
   const min = arr => Math.min.apply(Math, arr); // eslint-disable-line
   // Min (y) pos from layers

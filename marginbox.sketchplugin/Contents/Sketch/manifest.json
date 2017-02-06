@@ -4,7 +4,7 @@
     "author": "Francis Vega",
     "author": "hisconer@gmail.com",
     "homepage": "",
-    "version": 0.03,
+    "version": 0.1,
     "identifier": "com.example.sketch.marginbox",
     "compatibleVersion": "4.2",
     "bundleVersion": 1,
@@ -14,14 +14,14 @@
             "identifier": "adjustmarginbox",
             "handler": "onRun",
             "shortcut": "cmd j",
-            "script": "marginbox.cocoascript"
+            "script": "marginbox.js"
         },
         {
             "name": "Toggle MarginBox",
             "identifier": "togglemarginbox",
             "handler": "onRun",
             "shortcut": "ctrl alt cmd m",
-            "script": "togglemarginbox.cocoascript"
+            "script": "togglemarginbox.js"
         }
     ],
     "menu": {
