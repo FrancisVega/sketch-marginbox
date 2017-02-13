@@ -1,35 +1,27 @@
-@import "common.js";
-
 var onRun = function(context) {
 
-  //
+  // Imports
+
+  @import "sQuery.js"
+
+
+
   // Constants
-  //
 
-  const MARGIN_NAME = 'marginbox';
+  const MARGIN_LAYER_NAME = 'marginbox';
 
 
-  //
+
   // Main
-  //
 
-  const toggleVisibilityLayersByName = (sel, name) => {
-    sel.slice().map(group => {
-      let childs
-      switch(group.class()) {
-        case MSSymbolInstance:
-          childs = group.symbolMaster().children();
-          break;
-        default:
-          childs = group.children();
-      }
-      let marginLayers = findLayersByName(name, childs).slice()
-      if(marginLayers.length > 0 ) {
-        let firstStatus = marginLayers[0].isVisible();
-        marginLayers.map(layer => layer.setIsVisible(!firstStatus));
-      }
-    })
+  try {
+    const marginboxLayers = $("%selected%").childs().withName(MARGIN_LAYER_NAME);
+    const firstStatus = marginboxLayers.layers[0].isVisible()
+    marginboxLayers.each(function(){
+      this.setIsVisible(!firstStatus);
+    });
+  } catch(e) {
+    log(e)
   }
 
-  toggleVisibilityLayersByName(context.selection, MARGIN_NAME);
 };
