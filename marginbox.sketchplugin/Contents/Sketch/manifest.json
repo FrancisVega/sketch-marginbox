@@ -10,14 +10,18 @@
     "bundleVersion": 1,
     "commands": [
         {
-            "name": "MarginBox",
+            "description": "Add marginbox layer to selected group(s)",
+            "icon":"icons/add-icon.png",
+            "name": "Add Margin Box",
             "identifier": "adjustmarginbox",
             "handler": "onRun",
             "shortcut": "cmd j",
             "script": "marginbox.js"
         },
         {
-            "name": "Toggle MarginBox",
+            "description": "Toggle the visibility of margin box layer within selected group(s)",
+            "icon":"icons/toggle-icon.png",
+            "name": "Toggle Margin Box",
             "identifier": "togglemarginbox",
             "handler": "onRun",
             "shortcut": "ctrl alt cmd m",
