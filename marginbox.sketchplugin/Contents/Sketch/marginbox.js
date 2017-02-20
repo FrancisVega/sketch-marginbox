@@ -1,13 +1,13 @@
-@import 'common.js';
-
 var onRun = function(context) { // eslint-disable-line
+
+  @import 'common.js';
 
   //
   // Functions
   //
 
   // Get min value from array
-  const min = arr => Math.min.apply(Math, arr); // eslint-disable-line
+  const min = arr => Math.min.apply(Math, arr);
   // Min (y) pos from layers
   const minY = layers => min(layers.slice().map(layer => layer.frame().y()));
   // Min (x) pos from layers

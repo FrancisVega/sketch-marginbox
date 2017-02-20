@@ -15,7 +15,7 @@
             "name": "Add Margin Box",
             "identifier": "adjustmarginbox",
             "handler": "onRun",
-            "shortcut": "cmd j",
+            "shortcut": "cmd shift m",
             "script": "marginbox.js"
         },
         {
