@@ -10,8 +10,7 @@ Simple scritp to create layers as margins
 Download and double click in marginbox.sketchplugin
 
 ## How to use
-With one or multiples groups (with margin data) selected execute the plugin or press cmd+j
-
+With one or multiples groups (with margin data) selected execute the plugin or press cmd+shift+m
 ## How to add margin data
 The format of margin is like css:
 - top-right-bottom-left (all)
