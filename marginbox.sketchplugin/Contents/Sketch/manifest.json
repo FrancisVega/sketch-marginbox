@@ -10,6 +10,15 @@
     "bundleVersion": 1,
     "commands": [
         {
+            "description": "Reflow",
+            "icon":"icons/data-icon.png",
+            "name": "Vertical Reflow",
+            "identifier": "reflow",
+            "handler": "onRun",
+            "shortcut": "shift cmd =",
+            "script": "reflow.js"
+        },
+        {
             "description": "Add margin data to layer",
             "icon":"icons/data-icon.png",
             "name": "Add margin data to layer",
@@ -40,6 +49,7 @@
     "menu": {
         "title": "MarginBox",
         "items": [
+            "reflow",
             "addmargindata",
             "adjustmarginbox",
             "togglemarginbox"

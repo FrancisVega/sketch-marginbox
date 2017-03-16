@@ -168,4 +168,5 @@ var onRun = function(context) { // eslint-disable-line
   for(let i=0, len=selection.length; i<len; ++i) {
     selection[i].select_byExpandingSelection(true, true);
   }
+  log("LOL")
 }
