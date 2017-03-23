@@ -1,5 +1,5 @@
 # sketch-marginbox
-Simple scritp to create layers as margins
+Simple script to create layers as margins
 
 <a href="http://bit.ly/SketchRunnerWebsite">
   <img width="160" height="40" src="http://sketchrunner.com/img/badge_blue.png" >
