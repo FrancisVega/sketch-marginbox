@@ -1,6 +1,6 @@
 {
-    "name": "Marginbox",
-    "description": "Marginbox",
+    "name": "🔲 Marginbox",
+    "description": "🔲 Marginbox",
     "author": "Francis Vega",
     "author": "hisconer@gmail.com",
     "homepage": "",
@@ -10,9 +10,31 @@
     "bundleVersion": 1,
     "commands": [
         {
+            "script": "addOrUpdateMarginboxAction.js",
+            "name": "Add Or Update MB",
+            "handlers": {
+                "run": "onRun",
+                "actions": {
+                    "SelectionChanged": "addOrUpdate"
+                }
+            },
+            "description": "actionAddMarginBox",
+            "icon":"icons/data-icon.png",
+            "identifier": "actionAddMarginBox"
+        },
+        {
+            "description": "Padding Box",
+            "icon":"icons/data-icon.png",
+            "name": "Padding Box",
+            "identifier": "adjustpaddingbox",
+            "handler": "onRun",
+            "shortcut": "shift cmd k",
+            "script": "paddingbox.js"
+        },
+        {
             "description": "Reflow",
             "icon":"icons/data-icon.png",
-            "name": "Vertical Reflow",
+            "name": "⬆️ Vertical Reflow",
             "identifier": "reflow",
             "handler": "onRun",
             "shortcut": "shift cmd =",
@@ -21,7 +43,7 @@
         {
             "description": "Add margin data to layer",
             "icon":"icons/data-icon.png",
-            "name": "Add margin data to layer",
+            "name": "🔢 Add margin data to layer",
             "identifier": "addmargindata",
             "handler": "onRun",
             "shortcut": "ctrl alt m",
@@ -30,16 +52,18 @@
         {
             "description": "Add marginbox layer to selected group(s)",
             "icon":"icons/add-icon.png",
-            "name": "Add Margin Box",
+            "name": "🔲 Add Margin Box",
             "identifier": "adjustmarginbox",
-            "handler": "onRun",
+            "handlers" : {
+                "run" : "onMarginbox"
+            },
             "shortcut": "cmd shift m",
             "script": "marginbox.js"
         },
         {
             "description": "Toggle the visibility of margin box layer within selected group(s)",
             "icon":"icons/toggle-icon.png",
-            "name": "Toggle Margin Box",
+            "name": "🔳 Toggle Margin Box",
             "identifier": "togglemarginbox",
             "handler": "onRun",
             "shortcut": "ctrl alt cmd m",
@@ -47,11 +71,12 @@
         }
     ],
     "menu": {
-        "title": "MarginBox",
+        "title": "🔲 Marginbox",
         "items": [
             "reflow",
             "addmargindata",
             "adjustmarginbox",
+            "foo",
             "togglemarginbox"
         ]
     }

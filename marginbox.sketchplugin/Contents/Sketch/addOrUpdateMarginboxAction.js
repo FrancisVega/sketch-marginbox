@@ -1,22 +1,36 @@
-var onMarginbox = function(context) { // eslint-disable-line
-
+var addOrUpdate = function(context) {
   @import 'common.js';
 
-  //
-  // Consts
-  //
+  /*
+   *context.actionContext.oldSelection.slice().map(function(layer) {
+   *    log(layer.name())
+   *})
+   */
 
+  function findMarginBoxGroup ( layer ) {
+    if(layer.parentGroup().class() == "MSArtboardGroup" || layer.parentGroup().class() == "MSSymbolMaster") {
+      return layer;
+    } else {
+      return findMarginBoxGroup( layer.parentGroup() );
+    }
+  }
+
+  const G = context.actionContext.oldSelection.slice().map(function(layer){
+    return findMarginBoxGroup( layer )
+  })
+
+  const uniqueArray = G.filter(function(item, pos) {
+    return G.indexOf(item) == pos;
+  })
+
+  log(uniqueArray)
   const MARGIN_LAYER_NAME = 'marginbox';
   const MARGIN_BORDER_COLOR = { r:255, g:0, b:128, a:0.5 };
   const MARGIN_FILL_COLOR = { r:255, g:0, b:128, a:0.05 };
   const MARGIN_BORDER_THICKNESS = 1;
 
-  //
-  // Main
-  //
-
-  // User seleccion
-  const selection = context.selection;
+  //const selection = context.actionContext.oldSelection;
+  const selection = uniqueArray;
   const allChildren = getChildrenOfSelection(selection);
   const justGroups = allChildren.slice().filter(layer => layer.class() == 'MSLayerGroup');
 

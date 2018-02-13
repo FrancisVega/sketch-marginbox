@@ -20,7 +20,10 @@ var onRun = function(context) { // eslint-disable-line
 
   const reflowSelection = sel => {
     const layers = getLayersOfSelection(sel);
-    const groups = layers.slice().filter(layer => layer.class() == "MSLayerGroup");
+    //const groups = layers.slice().filter(layer => layer.class() == "MSLayerGroup");
+    // Temporalmente vamos a hacer que el plugin funcione al margen de marginbox.
+    // Reflow alinea verticalmente las capas hijas del primer nivel.
+    const groups = layers;
     const sortedLayers = sortLayersVertically(groups);
 
     for (let i=1; i<sortedLayers.length; ++i) {
